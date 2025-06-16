@@ -11,7 +11,8 @@ import {
   MapPin,
   AlertTriangle,
   Clock,
-  CheckCircle
+  CheckCircle,
+  TrendingUp
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -29,6 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
     { id: 'stations', label: 'Police Stations', icon: Building2, permission: 'view_stations' },
     { id: 'criminals', label: 'Criminal Records', icon: Users, permission: 'view_criminals' },
     { id: 'search', label: 'Search & Query', icon: Search, permission: 'search_records' },
+    { id: 'analytics', label: 'Crime Analytics', icon: TrendingUp, permission: 'view_analytics' },
     { id: 'reports', label: 'Reports', icon: BarChart3, permission: 'view_reports' },
     { id: 'users', label: 'User Management', icon: Settings, permission: 'manage_users' },
   ];

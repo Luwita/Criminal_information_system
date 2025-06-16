@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   FileText, 
   Users, 
@@ -11,8 +11,15 @@ import {
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
 import { crimeStatistics } from '../../data/mockData';
+import QuickActions from './QuickActions';
+import RecentActivity from './RecentActivity';
+import AddCaseModal from '../Cases/AddCaseModal';
+import AddRecordModal from '../CriminalRecords/AddRecordModal';
 
 const Dashboard: React.FC = () => {
+  const [showAddCaseModal, setShowAddCaseModal] = useState(false);
+  const [showAddRecordModal, setShowAddRecordModal] = useState(false);
+
   const stats = [
     {
       title: 'Total Cases',
@@ -58,6 +65,19 @@ const Dashboard: React.FC = () => {
 
   const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
 
+  const handleNewCase = () => {
+    setShowAddCaseModal(true);
+  };
+
+  const handleNewRecord = () => {
+    setShowAddRecordModal(true);
+  };
+
+  const handleSearch = () => {
+    // Navigate to search page or open search modal
+    console.log('Navigate to search');
+  };
+
   return (
     <div className="p-6 space-y-6">
       {/* Stats Cards */}
@@ -90,6 +110,13 @@ const Dashboard: React.FC = () => {
           );
         })}
       </div>
+
+      {/* Quick Actions */}
+      <QuickActions
+        onNewCase={handleNewCase}
+        onNewRecord={handleNewRecord}
+        onSearch={handleSearch}
+      />
 
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -154,44 +181,8 @@ const Dashboard: React.FC = () => {
 
       {/* Recent Activity & Top Locations */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Cases */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-          <h3 className="text-lg font-semibold text-slate-800 mb-4">Recent Cases</h3>
-          <div className="space-y-4">
-            {[
-              { id: 'LSK/2024/001', type: 'Burglary', location: 'Kabulonga', status: 'Under Investigation', priority: 'Medium' },
-              { id: 'LSK/2024/002', type: 'Theft', location: 'CBD', status: 'Solved', priority: 'High' },
-              { id: 'LSK/2024/003', type: 'Assault', location: 'Chilenje', status: 'Reported', priority: 'High' },
-              { id: 'LSK/2024/004', type: 'Fraud', location: 'Kamwala', status: 'Under Investigation', priority: 'Low' }
-            ].map((case_, index) => (
-              <div key={index} className="flex items-center justify-between p-3 border border-slate-100 rounded-lg hover:bg-slate-50 transition-colors">
-                <div className="flex-1">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-sm font-medium text-slate-800">{case_.id}</span>
-                    <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-full">{case_.type}</span>
-                  </div>
-                  <p className="text-sm text-slate-600 mt-1">{case_.location}</p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    case_.priority === 'High' ? 'bg-red-100 text-red-700' :
-                    case_.priority === 'Medium' ? 'bg-yellow-100 text-yellow-700' :
-                    'bg-green-100 text-green-700'
-                  }`}>
-                    {case_.priority}
-                  </span>
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    case_.status === 'Solved' ? 'bg-green-100 text-green-700' :
-                    case_.status === 'Under Investigation' ? 'bg-blue-100 text-blue-700' :
-                    'bg-gray-100 text-gray-700'
-                  }`}>
-                    {case_.status}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* Recent Activity */}
+        <RecentActivity />
 
         {/* Top Crime Locations */}
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
@@ -219,6 +210,25 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <AddCaseModal
+        isOpen={showAddCaseModal}
+        onClose={() => setShowAddCaseModal(false)}
+        onSave={(caseData) => {
+          console.log('New case created:', caseData);
+          setShowAddCaseModal(false);
+        }}
+      />
+
+      <AddRecordModal
+        isOpen={showAddRecordModal}
+        onClose={() => setShowAddRecordModal(false)}
+        onSave={(recordData) => {
+          console.log('New record created:', recordData);
+          setShowAddRecordModal(false);
+        }}
+      />
     </div>
   );
 };

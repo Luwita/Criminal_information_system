@@ -11,6 +11,7 @@ import CriminalRecordsList from './components/CriminalRecords/CriminalRecordsLis
 import SearchQuery from './components/Search/SearchQuery';
 import ReportsList from './components/Reports/ReportsList';
 import UserManagement from './components/Users/UserManagement';
+import CrimeAnalytics from './components/Analytics/CrimeAnalytics';
 
 const MainApp: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -36,6 +37,8 @@ const MainApp: React.FC = () => {
         return <ReportsList />;
       case 'users':
         return <UserManagement />;
+      case 'analytics':
+        return <CrimeAnalytics />;
       default:
         return <Dashboard />;
     }
